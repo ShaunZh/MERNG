@@ -1,6 +1,8 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken')
-const { UserInputError } = require('@apollo/server')
+const ApolloServerErrorCode = require('@apollo/server/errors');
+const { GraphQLError } = require('graphql')
+
 
 const User = require('../../models/User');
 const { SECRET_KEY } = require('../../config');
@@ -21,18 +23,18 @@ module.exports = {
             const user = await User.findOne({ username })
 
             if (!valid) {
-                throw new UserInputError('Errors', { errors });
+                throw errors;
             }
 
             if (!user) {
                 errors.general = 'User not found';
-                throw new UserInputError('User not found', { errors })
+                throw errors;
             }
 
             const match = bcrypt.compare(password, user.password)
             if (!match) {
                 error.general = 'Wrong crendentials';
-                throw new UserInputError('Wrong crendentials', { errors })
+                throw errors;
             }
 
             const token = generateToken(user);
@@ -53,15 +55,15 @@ module.exports = {
             const { errors, valid } = validateRegisterInput(username, password, confirmPassword, email,);
 
             if (!valid) {
-                throw new UserInputError('Errors', { errors });
+                throw errors;
             }
 
             // make sure the user doesnot already exist
             const user = await User.findOne({ username });
             if (user) {
-                throw new UserInputError('Username is Taken', {
-                    errors: {
-                        message: 'The username is taken',
+                throw new GraphQLError('Username is Taken', {
+                    extensions: {
+                        code: ApolloServerErrorCode.BAD_USER_INPUT,
                     }
                 })
             }
