@@ -1,6 +1,4 @@
-const { gql } = require('apollo-server');
-
-module.exports = gql`
+module.exports = `#graphql
     type Post {
         id: ID!,
         post: String!,
@@ -28,5 +26,7 @@ module.exports = gql`
     type Mutation {
         register(registerInput: RegisterInput!): User!
         login(username: String!, password: String!): User!
+        createPost(post: String!): Post
+        deletePost(postId: ID!): String
     }
 `

@@ -1,5 +1,5 @@
-const { ApolloServer } = require('apollo-server')
-const gql = require('graphql-tag')
+const { ApolloServer } = require('@apollo/server');
+const { startStandaloneServer } = require('@apollo/server/standalone');
 const mongoose = require('mongoose');
 
 const { MONGODB } = require('./config.js');
@@ -13,9 +13,12 @@ const server = new ApolloServer({
 
 mongoose
     .connect(MONGODB, { useNewUrlParser: true })
-    .then(() => {
+    .then(async () => {
         console.log('MongoDB connected')
-        return server.listen({ port: 5000 })
+        const app = await startStandaloneServer(server, {
+            listen: { port: 5000 },
+        })
+        return app
     })
     .then(() => {
         console.log('Server ready at port 5000')
