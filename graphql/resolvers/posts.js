@@ -1,13 +1,14 @@
-const Post = require('../../models/Post');
+const { GraphQLError } = require('graphql');
 
+const Post = require('../../models/Post');
 const checkAuth = require('../../util/check-auth');
+const { ERROR_CODE } = require('../../constants');
 
 module.exports = {
     Query: {
         async getPosts() {
             try {
                 const posts = await Post.find().sort({ createdAt: -1 });
-                console.log(posts)
                 return posts
             } catch (err) {
                 throw new Error(err)
@@ -30,7 +31,6 @@ module.exports = {
         async createPost(_, { body }, context) {
             const user = checkAuth(context);
 
-            console.log('createPost')
             const newPost = await Post.create({ 
                 post: body,
                 user: user.id,
@@ -42,12 +42,23 @@ module.exports = {
 
             return post;
         },
-        async deletePost(_, { postId }) {
-            const errors = {}
-            const post = await Post.findById( postId )
-            if (post) {
-                await post.delete();
-            } else {
+        async deletePost(_, { postId }, context) {
+            const user = checkAuth(context);
+
+            try {
+                const post = await Post.findById( postId )
+                if (user.username === post.username) {
+                    await post.deleteOne();
+                    return 'Post deleted successfully'
+                } else {
+                    throw new GraphQLError('Action not allowed ',  {
+                        extensions: {
+                            code: ERROR_CODE.UNAUTHENTICATED
+                        }
+                    })
+                }
+            } catch (err) {
+                throw new Error(err)
             }
         }
     }
