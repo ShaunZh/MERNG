@@ -17,6 +17,7 @@ mongoose
         console.log('MongoDB connected')
         const app = await startStandaloneServer(server, {
             listen: { port: 5000 },
+            context: async ({ req }) => ({ req }),
         })
         return app
     })

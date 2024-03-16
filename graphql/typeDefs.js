@@ -7,6 +7,7 @@ module.exports = `#graphql
     }
     type Query {
         getPosts: [Post]!
+        getPost(postId: ID!): Post!
     }
 
     type User {
@@ -26,7 +27,7 @@ module.exports = `#graphql
     type Mutation {
         register(registerInput: RegisterInput!): User!
         login(username: String!, password: String!): User!
-        createPost(post: String!): Post
-        deletePost(postId: ID!): String
+        createPost(body: String!): Post!
+        deletePost(postId: ID!): String!
     }
 `
