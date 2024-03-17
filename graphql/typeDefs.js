@@ -6,6 +6,8 @@ module.exports = `#graphql
         createdAt: String!,
         comments: [Comment]!,
         likes: [Like]!
+        likeCount: Int!
+        commentCount: Int!
     }
     type Query {
         getPosts: [Post]!
@@ -48,5 +50,8 @@ module.exports = `#graphql
         createComment(postId: ID!, body: String!): Post!
         deleteComment(postId: ID!, commentId: ID!): String!
         likePost(postId: ID!): String!
+    }
+    type Subscription {
+        postCreated: Post!
     }
 `

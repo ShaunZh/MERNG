@@ -4,6 +4,8 @@ const Post = require('../../models/Post');
 const checkAuth = require('../../util/check-auth');
 const { ERROR_CODE } = require('../../constants');
 
+const { pubsub } = require('../../index');
+
 module.exports = {
     Query: {
         async getPosts() {
@@ -30,6 +32,7 @@ module.exports = {
     Mutation: {
         async createPost(_, { body }, context) {
             const user = checkAuth(context);
+            const { pubsub } = context;
 
             const newPost = await Post.create({ 
                 post: body,
@@ -39,7 +42,7 @@ module.exports = {
             })
 
             const post = await newPost.save() 
-
+            pubsub.publish('POST_CREATED', { postCreated: post })
             return post;
         },
         async deletePost(_, { postId }, context) {
@@ -59,6 +62,14 @@ module.exports = {
                 }
             } catch (err) {
                 throw new Error(err)
+            }
+        }
+    },
+    Subscription: {
+        postCreated: {
+            subscribe: (_, __, context ) => {
+                console.log('subscribe----', _, __, context)
+                return pubsub.asyncIterator(['POST_CREATED'])
             }
         }
     }
