@@ -47,7 +47,7 @@ module.exports = {
                     const index = post.comments.findIndex(comment => comment._id.toString() === commentId);
                     if (index !== -1) {
                         if (user.username !== post.comments[index].username) {
-                            throw new GraphQLError('Delete not allowed', {
+                            throw new GraphQLError('Action not allowed', {
                                 extensions: {
                                     code: ApolloServerErrorCode.BAD_USER_INPUT,
                                 }

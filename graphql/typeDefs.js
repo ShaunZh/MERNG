@@ -47,6 +47,6 @@ module.exports = `#graphql
 
         createComment(postId: ID!, body: String!): Post!
         deleteComment(postId: ID!, commentId: ID!): String!
-        likePost(postId: ID!): Post!
+        likePost(postId: ID!): String!
     }
 `
