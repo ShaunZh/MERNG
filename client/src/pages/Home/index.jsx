@@ -22,8 +22,11 @@ function DispPosts() {
 
 export default function Home() {
     return (
-        <div>
+        <div className='text-3xl font-bold underline'>
+            <div>
             Home
+
+            </div>
             <p>Posts</p>
             <div>
                 <DispPosts />

@@ -4,6 +4,7 @@ import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import 'semantic-ui-css/semantic.min.css'
 import { ErrorBoundary } from 'react-error-boundary'
 import './index.css'
+import './styles/index.css'
 import App from './App'
 
 
