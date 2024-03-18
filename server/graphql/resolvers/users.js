@@ -5,7 +5,7 @@ const { GraphQLError } = require('graphql')
 
 
 const User = require('../../models/User');
-const { SECRET_KEY } = require('../../config');
+const { SECRET_KEY } = require('../../../config');
 const { validateRegisterInput, validateLoginInput } = require('../../util/validators');
 
 const generateToken = (user) => {

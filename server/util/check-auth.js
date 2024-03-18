@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const { GraphQLError } = require('graphql')
 
-const { SECRET_KEY } = require('../config');
+const { SECRET_KEY } = require('../../config');
 const { ERROR_CODE } = require('../constants');
 
 module.exports = (context) => {
