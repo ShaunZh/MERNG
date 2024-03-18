@@ -15,7 +15,7 @@ const pubsub = new PubSub();
 
 module.exports.pubsub = pubsub;
 
-const { MONGODB } = require('./config.js');
+const { MONGODB } = require('../config.js');
 const typeDefs = require('./graphql/typeDefs.js')
 const resolvers = require('./graphql/resolvers/index.js')
 
