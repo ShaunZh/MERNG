@@ -27,7 +27,7 @@ const httpServer = createServer(app);
 // Set up WebSocket server.
 const wsServer = new WebSocketServer({
     server: httpServer,
-    path: '/',
+    path: '/graphql',
 });
 const serverCleanup = useServer({
     schema,
@@ -63,7 +63,7 @@ async function startApolloServer() {
             console.log('MongoDB connected')
             await server.start();
             app.use(
-                '/',
+                '/graphql',
                 cors(),
                 bodyParser.json(),
                 expressMiddleware(server, {
@@ -75,8 +75,8 @@ async function startApolloServer() {
             return httpServer.listen(PORT)
         })
         .then(() => {
-            console.log(`🚀 Query endpoint ready at http://localhost:${PORT}/`);
-            console.log(`🚀 Subscription endpoint ready at ws://localhost:${PORT}/`);
+            console.log(`🚀 Query endpoint ready at http://localhost:${PORT}/graphql`);
+            console.log(`🚀 Subscription endpoint ready at ws://localhost:${PORT}/graphql`);
         })
 }
 
