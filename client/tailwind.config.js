@@ -7,9 +7,11 @@ export default {
   theme: {
     extend: {},
     container: {
-      center: true,
     },
+    colors: {
+      current: '#0ea5e9',
+    }
   },
-  plugins: [],
+  plugins: ['prettier-plugin-tailwindcss'],
 }
 

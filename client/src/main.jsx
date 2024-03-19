@@ -21,7 +21,7 @@ root.render(
     <ErrorBoundary fallback='⚠️Something went wrong'>
       <ApolloProvider client={client}>
         <App></App>
-      </ApolloProvider>,
+      </ApolloProvider>
     </ErrorBoundary>
   </React.StrictMode>,
 )
