@@ -3,16 +3,11 @@ import PropTypes from 'prop-types';
 function Avatar(props) {
     const { username, avatar } = props;
 
-    return (
-        <div className='flex'>
-            {
-                avatar ?
-                    <img className="ui avatar image" src={avatar} alt='avatar' /> :
-                    <span className='rounded-full bg-cyan-300 size-8'>{username.slice(0, 1)}</span>
-            }
-            <span>{ username }</span>
-        </div>
-    )
+    if (avatar) {
+        return <img className="ui avatar image" src={avatar} alt='avatar' /> 
+    }
+    return <span
+        className='size-10 rounded-full bg-sky-500 text-center leading-8 text-white mr-4 text-2xl' >{username.slice(0, 1)}</span>
 }
 
 Avatar.propTypes = {
