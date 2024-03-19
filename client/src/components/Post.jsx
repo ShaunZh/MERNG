@@ -19,13 +19,19 @@ function Post(props) {
 
     return (
         <div>
-            <div>
+            <div className='flex'>
                 <Avatar username={username} ></Avatar>
-                <p>{post }</p>
                 <div>
-                    <i className="comment outline icon" onClick={handleComment}></i>
-                    <i className="thumbs up icon">{commentCount}</i>
-                    <i className="thumbs up outline icon">{ likeCount }</i>
+                    <div className='text-xl'>
+                        <span className='font-medium'>{username}</span>
+                        <span className='text-slate-500'> @{username} </span>
+                    </div>
+                    <p className=''>{post }</p>
+                    <div className='flex justify-between'>
+                        <i className="comment icon rounded-full size-8" onClick={handleComment}></i>
+                        <i className="thumbs up icon">{commentCount}</i>
+                        <i className="thumbs up icon">{ likeCount }</i>
+                    </div>
                 </div>
             </div>
             {
