@@ -8,9 +8,6 @@ export default {
     extend: {},
     container: {
     },
-    colors: {
-      current: '#0ea5e9',
-    }
   },
   plugins: ['prettier-plugin-tailwindcss'],
 }
