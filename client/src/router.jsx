@@ -6,6 +6,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Layout from "./components/Layout";
 import Home from "./pages/Home";
+import { checkAuth } from "./utils/auth";
 
 const router = createBrowserRouter([
     {
@@ -18,12 +19,13 @@ const router = createBrowserRouter([
     },
     {
         path: "/",
+        loader: checkAuth,
         element: <Layout />,
         children: [
             {
                 path: "/home",
                 element: <Home />
-            }
+            },
         ]
     },
 ]);
