@@ -23,18 +23,33 @@ module.exports = {
             const user = await User.findOne({ username })
 
             if (!valid) {
-                throw errors;
+                throw new GraphQLError('Login error', {
+                    extensions: {
+                        code: ApolloServerErrorCode.BAD_USER_INPUT,
+                        messages: errors
+                    }
+                })
             }
 
             if (!user) {
-                errors.general = 'User not found';
-                throw errors;
+                errors.username = 'User not found';
+                throw new GraphQLError('User not found', {
+                    extensions: {
+                        code: ApolloServerErrorCode.BAD_USER_INPUT,
+                        messages: errors
+                    }
+                })
             }
 
-            const match = bcrypt.compare(password, user.password)
+            const match = await bcrypt.compare(password, user.password)
             if (!match) {
-                error.general = 'Wrong crendentials';
-                throw errors;
+                errors.password = 'Wrong crendentials';
+                throw new GraphQLError('Wrong crendentials', {
+                    extensions: {
+                        code: ApolloServerErrorCode.BAD_USER_INPUT,
+                        messages: errors
+                    }
+                })
             }
 
             const token = generateToken(user);
@@ -55,7 +70,12 @@ module.exports = {
             const { errors, valid } = validateRegisterInput(username, password, confirmPassword, email,);
 
             if (!valid) {
-                throw errors;
+                throw new GraphQLError('Register error', {
+                    extensions: {
+                        code: ApolloServerErrorCode.BAD_USER_INPUT,
+                        messages: errors
+                    }
+                })
             }
 
             // make sure the user doesnot already exist
