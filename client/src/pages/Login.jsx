@@ -1,44 +1,91 @@
-import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react'
+import React from 'react'
+import { useState } from 'react'
+import { useMutation } from '@apollo/client'
+import {Form, Button, Input } from 'antd'
+import { USER_LOGIN } from '../graphql/user';
 
-const Login = () => {
 
-    const handleSubmit = (...rest) => {
-        console.log('rest', rest)
+function Login() {
+    const [errors, setErrors] = useState();
+    const [login] = useMutation(
+        USER_LOGIN,
+        {
+            onError(err) {
+                console.log('error', err.graphQLErrors[0])
+                setErrors(err.graphQLErrors[0].extensions.messages)
+            },
+            onCompleted(data) {
+                console.log('data', data)
+            }
+        });
+
+    const handleSubmit = (values) => {
+        login({
+            variables: {
+                ...values
+            }
+        })
     }
     return (
-        <div className="ui w-1/4 grid place-content-center">
-            <div className="">
-                <h2 className="ui teal image header">
-                    <img src="assets/images/logo.png" className="image" />
-                        <div className="content">
-                            Log-in to your account
-                        </div>
-                </h2>
-                <form className="ui large form">
-                    <div className="ui stacked segment">
-                        <div className="field">
-                            <div className="ui left icon input">
-                                <i className="user icon"></i>
-                                <input type="text" name="email" placeholder="E-mail address" />
-                            </div>
-                        </div>
-                        <div className="field">
-                            <div className="ui left icon input">
-                                <i className="lock icon"></i>
-                                <input type="password" name="password" placeholder="Password" />
-                            </div>
-                        </div>
-                        <div className="ui fluid large teal submit button">Login</div>
-                    </div>
+        <div className="grid place-content-center h-full w-full">
+            <div className=''>
+                <Form
+                    name="basic"
+                    labelCol={{
+                        span: 8,
+                    }}
+                    wrapperCol={{
+                        span: 16,
+                    }}
+                   
+                    initialValues={{
+                        remember: true,
+                    }}
+                    onFinish={handleSubmit}
+                    autoComplete="off"
+                    
+                >
+                    <Form.Item
+                        label="Username"
+                        name="username"
+                        validateStatus={errors?.username ? 'error' : ''}
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Please input your username!',
+                            },
+                        ]}
+                    >
+                        <Input />
+                    </Form.Item>
 
-                    <div className="ui error message"></div>
+                    <Form.Item
+                        label="Password"
+                        name="password"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Please input your password!',
+                            },
+                        ]}
+                    >
+                        <Input.Password />
+                    </Form.Item>
 
-                </form>
-
-                <div className="ui message">
-                    New to us? <a href="#">Sign Up</a>
-                </div>
+                    <Form.Item
+                        wrapperCol={{
+                            offset: 8,
+                            span: 16,
+                        }}
+                    >
+                        <Button type="primary" htmlType="submit">
+                            Submit
+                        </Button>
+                    </Form.Item>
+                </Form>
             </div>
+            
+
         </div>
     )
 }

@@ -1,12 +1,9 @@
 import { useState } from 'react';
 import {
     Modal,
-    ModalHeader,
-    ModalContent,
-    ModalActions,
     Button,
-    TextArea,
-} from 'semantic-ui-react'
+    Input
+} from 'antd'
 import PropTypes from 'prop-types'
 
 function Comment(props) {
@@ -19,11 +16,11 @@ function Comment(props) {
         onOpen={() => handleOk(content)}
         open={open}
     >
-        <ModalHeader>Comment</ModalHeader>
-        <ModalContent >
-            <TextArea value={content} onChange={setContent}></TextArea>
-        </ModalContent>
-        <ModalActions>
+        <div>Comment</div>
+        <div >
+            <Input.TextArea value={content} onChange={setContent}></Input.TextArea>
+        </div>
+        <div>
                 <Button color='black' content="Cancel" onClick={handleClose} />
                 <Button
                 content="Ok"
@@ -31,7 +28,7 @@ function Comment(props) {
                 icon='checkmark'
                 positive
             />
-        </ModalActions>
+        </div>
     </Modal>
     )
 }
