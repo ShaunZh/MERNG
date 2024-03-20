@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 function SideBar() {
     return (
-        <div className='flex flex-col justify-between w-2/3'>
+        <div className='flex flex-col justify-between w-2/3 mb-4'>
             <div className="top flex flex-col flex-1 ">
                 <Link to='/home' className='py-4  px-8 text-4xl cursor-pointer'>
                     <i className="bullseye icon "></i>
