@@ -8,14 +8,13 @@ function DispPosts() {
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error : {error.message}</p>;
 
-    console.log(data);
     return <PostList postList={data.getPosts}></PostList>
 }
 
 export default function Home() {
     return (
-        <>
+        <div className="w-full min-h-full py-8">
             <DispPosts />
-        </>
+        </div>
     )
 }

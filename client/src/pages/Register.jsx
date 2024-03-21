@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useMutation } from '@apollo/client'
-import { Form, Button, Input, Modal, message } from 'antd'
+import { Form, Button, Input, Modal } from 'antd'
 import { useNavigate } from "react-router-dom";
 import { USER_REGISTER } from '../graphql/user';
 import { TOKEN_KEY } from "../utils/constants"
@@ -37,15 +37,12 @@ function Register() {
         USER_REGISTER,
         {
             onError(err) {
-                console.log('error', err.graphQLErrors[0])
                 setErrors(err.graphQLErrors[0].extensions.messages)
-                message.error(err.graphQLErrors[0].message)
             },
             onCompleted(data) {
                 const { token } = data;
                 sessionStorage.setItem(TOKEN_KEY, token)
                 navigate('/home')
-                console.log('data', data)
             }
         });
 

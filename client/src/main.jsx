@@ -1,39 +1,54 @@
 import React from 'react'
+import { message } from 'antd'
 import ReactDOM from 'react-dom/client'
-import { ApolloClient, InMemoryCache, ApolloProvider, HttpLink } from '@apollo/client';
+import { ApolloClient, InMemoryCache, ApolloProvider, HttpLink, from } from '@apollo/client';
 import { onError } from "@apollo/client/link/error";
 import { StyleProvider } from '@ant-design/cssinjs';
 import { ErrorBoundary } from 'react-error-boundary'
 import './index.css'
 import './styles/index.css'
 import App from './App'
+import { TOKEN_KEY } from './utils/constants';
 
 const errorLink = onError((error) => {
   const { graphQLErrors, networkError } = error;
   console.log('error', error);
   if (graphQLErrors)
-    graphQLErrors.forEach(({ message, locations, path }) =>
-      console.log(
-        `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
-      )
-    );
-  if (networkError) console.error(`[Network error]: ${networkError}`);
+    message.error(graphQLErrors[0].message)
+  if (networkError) {
+    message.error(networkError)
+  }
 });
 
-const httpLink = new HttpLink({ uri: 'http://localhost:5000/graphql' })
+const httpLink = new HttpLink({
+  uri: 'http://localhost:5000/graphql',
+  headers: {
+    authorization: `Bearer ${sessionStorage.getItem(TOKEN_KEY)}`
+  }
+})
 
 const client = new ApolloClient({
-  uri: 'http://localhost:5000/graphql',
   cache: new InMemoryCache(),
-  // link: from([errorLink, httpLink]),
+  link: from([errorLink, httpLink]),
+ 
 });
 
 // Supported in React 18+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
+function fallbackRender({ error, resetErrorBoundary }) {
+
+  return (
+    <div role="alert">
+      <p>Something went wrong:</p>
+      <pre style={{ color: "red" }}>{error.message}</pre>
+    </div>
+  );
+}
+
 root.render(
   <React.StrictMode>
-    <ErrorBoundary fallback='⚠️Something went wrong'>
+    <ErrorBoundary fallback={fallbackRender }>
       <ApolloProvider client={client}>
         <StyleProvider hashPriority="high">
           <App></App>

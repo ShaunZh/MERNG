@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Avatar from './Avatar'
 import PropTypes from 'prop-types'
+import { ShareAltOutlined, CommentOutlined , LikeOutlined  } from '@ant-design/icons'
 import Comment from './Comment'
 
 function Post(props) {
@@ -19,18 +20,24 @@ function Post(props) {
 
     return (
         <div>
-            <div className='flex'>
+            <div className='flex hover:bg-slate-50 p-4 rounded-md'>
                 <Avatar username={username} ></Avatar>
-                <div>
+                <div className='w-full'>
                     <div className='text-xl'>
                         <span className='font-medium'>{username}</span>
                         <span className='text-slate-500'> @{username} </span>
                     </div>
-                    <p className=''>{post }</p>
-                    <div className='flex justify-between'>
-                        <i className="comment icon rounded-full size-8" onClick={handleComment}></i>
-                        <i className="thumbs up icon">{commentCount}</i>
-                        <i className="thumbs up icon">{ likeCount }</i>
+                    <p className='py-8 cursor-pointer'>{post}</p>
+                    <div className='flex justify-between w-1/2 items-center'>
+                        <span className='flex items-center cursor-pointer'>
+                            <CommentOutlined onClick={handleComment} className='mr-1'/>
+                            {commentCount}
+                        </span>
+                        <span className='flex items-center cursor-pointer'>
+                            <LikeOutlined className='mr-1'/>
+                            {likeCount}
+                        </span>
+                        <ShareAltOutlined />
                     </div>
                 </div>
             </div>

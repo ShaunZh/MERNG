@@ -7,7 +7,7 @@ function Avatar(props) {
         return <img className="ui avatar image" src={avatar} alt='avatar' /> 
     }
     return <span
-        className='size-10 rounded-full bg-sky-500 text-center leading-8 text-white mr-4 text-2xl' >{username.slice(0, 1)}</span>
+        className='size-10 rounded-full bg-sky-500 text-center leading-8 text-white mr-2 text-2xl' >{username.slice(0, 1)}</span>
 }
 
 Avatar.propTypes = {

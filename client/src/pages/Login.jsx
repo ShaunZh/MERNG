@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useMutation } from '@apollo/client'
-import { Form, Button, Input, Modal, message } from 'antd'
+import { Form, Button, Input, Modal } from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import { useNavigate } from "react-router-dom";
 import { USER_LOGIN } from '../graphql/user';
@@ -16,10 +16,9 @@ function Login() {
             onError(err) {
                 console.log('error', err.graphQLErrors[0])
                 setErrors(err.graphQLErrors[0].extensions.messages)
-                message.warning(err.graphQLErrors[0].message)
             },
             onCompleted(data) {
-                const { token } = data;
+                const { token } = data.login;
                 sessionStorage.setItem(TOKEN_KEY, token)
                 navigate('/home')
             }
