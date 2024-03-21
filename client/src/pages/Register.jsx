@@ -40,7 +40,7 @@ function Register() {
                 setErrors(err.graphQLErrors[0].extensions.messages)
             },
             onCompleted(data) {
-                const { token } = data;
+                const { token } = data.register;
                 sessionStorage.setItem(TOKEN_KEY, token)
                 navigate('/home')
             }
