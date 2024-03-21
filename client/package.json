@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@ant-design/cssinjs": "^1.18.4",
+    "@ant-design/icons": "^5.3.4",
     "@apollo/client": "^3.9.7",
     "antd": "^5.15.3",
     "graphql": "^16.8.1",

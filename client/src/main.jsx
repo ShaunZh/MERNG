@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { ApolloClient, InMemoryCache, ApolloProvider, HttpLink } from '@apollo/client';
 import { onError } from "@apollo/client/link/error";
-
+import { StyleProvider } from '@ant-design/cssinjs';
 import { ErrorBoundary } from 'react-error-boundary'
 import './index.css'
 import './styles/index.css'
@@ -35,7 +35,9 @@ root.render(
   <React.StrictMode>
     <ErrorBoundary fallback='⚠️Something went wrong'>
       <ApolloProvider client={client}>
-        <App></App>
+        <StyleProvider hashPriority="high">
+          <App></App>
+        </StyleProvider>
       </ApolloProvider>
     </ErrorBoundary>
   </React.StrictMode>,
