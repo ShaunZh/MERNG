@@ -1,21 +1,27 @@
-import React from 'react'
 import { useState } from 'react'
 import { useMutation } from '@apollo/client'
-import {Form, Button, Input } from 'antd'
+import { Form, Button, Input, Modal, message } from 'antd'
+import { UserOutlined, LockOutlined } from '@ant-design/icons'
+import { useNavigate } from "react-router-dom";
 import { USER_LOGIN } from '../graphql/user';
+import { TOKEN_KEY } from "../utils/constants"
 
 
 function Login() {
     const [errors, setErrors] = useState();
+    const navigate = useNavigate();
     const [login] = useMutation(
         USER_LOGIN,
         {
             onError(err) {
                 console.log('error', err.graphQLErrors[0])
                 setErrors(err.graphQLErrors[0].extensions.messages)
+                message.warning(err.graphQLErrors[0].message)
             },
             onCompleted(data) {
-                console.log('data', data)
+                const { token } = data;
+                sessionStorage.setItem(TOKEN_KEY, token)
+                navigate('/home')
             }
         });
 
@@ -28,63 +34,45 @@ function Login() {
     }
     return (
         <div className="grid place-content-center h-full w-full">
-            <div className=''>
+            <Modal
+                open
+                footer={null}
+                title="Login"
+                width={400}
+            >
                 <Form
-                    name="basic"
-                    labelCol={{
-                        span: 8,
-                    }}
-                    wrapperCol={{
-                        span: 16,
-                    }}
-                   
-                    initialValues={{
-                        remember: true,
-                    }}
+                    name="normal_login"
+                    className="login-form"
                     onFinish={handleSubmit}
-                    autoComplete="off"
-                    
+                    autoComplete={false}
                 >
                     <Form.Item
-                        label="Username"
                         name="username"
+                        rules={[{ required: true, message: 'Please input your Username!' }]}
                         validateStatus={errors?.username ? 'error' : ''}
-                        rules={[
-                            {
-                                required: true,
-                                message: 'Please input your username!',
-                            },
-                        ]}
                     >
-                        <Input />
+                        <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
                     </Form.Item>
-
                     <Form.Item
-                        label="Password"
                         name="password"
-                        rules={[
-                            {
-                                required: true,
-                                message: 'Please input your password!',
-                            },
-                        ]}
+                        rules={[{ required: true, message: 'Please input your Password!' }]}
+                        validateStatus={errors?.password ? 'error' : ''}
                     >
-                        <Input.Password />
+                        <Input
+                            prefix={<LockOutlined className="site-form-item-icon" />}
+                            type="password"
+                            placeholder="Password"
+                        />
                     </Form.Item>
 
-                    <Form.Item
-                        wrapperCol={{
-                            offset: 8,
-                            span: 16,
-                        }}
-                    >
-                        <Button type="primary" htmlType="submit">
-                            Submit
+                    <Form.Item>
+                        <Button  type="primary" htmlType="submit" className="login-form-button w-full">
+                            Log in
                         </Button>
+                        Or <a href="/register">register now!</a>
                     </Form.Item>
                 </Form>
-            </div>
-            
+            </Modal>
 
         </div>
     )
