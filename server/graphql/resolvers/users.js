@@ -84,6 +84,9 @@ module.exports = {
                 throw new GraphQLError('Username is Taken', {
                     extensions: {
                         code: ApolloServerErrorCode.BAD_USER_INPUT,
+                        messages: {
+                            username: 'Username is Taken'
+                        }
                     }
                 })
             }

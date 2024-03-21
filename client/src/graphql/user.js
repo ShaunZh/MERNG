@@ -8,3 +8,24 @@ export const USER_LOGIN= gql`
         }
     }
 `
+
+export const USER_REGISTER= gql`
+    mutation USER_REGISTER(
+        $username: String!, 
+        $password: String!, 
+        $confirmPassword: String!
+        $email: String!
+        ) {
+        register(registerInput: {
+            username: $username, 
+            password: $password
+            confirmPassword: $confirmPassword
+            email: $email
+        }
+            ){
+            username,
+            token
+        }
+    }
+`
+
