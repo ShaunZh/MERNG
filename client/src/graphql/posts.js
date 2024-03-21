@@ -12,8 +12,8 @@ export const QUERY_POSTS = gql`
     }
 `
 
-export const CREAT_POST = gql`
-    mutation CreatePost($body: String!) {
+export const CREATE_POST = gql`
+    mutation CREATE_POST($body: String!) {
       createPost(body: $body) {
         id,
         post

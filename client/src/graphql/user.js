@@ -21,8 +21,7 @@ export const USER_REGISTER= gql`
             password: $password
             confirmPassword: $confirmPassword
             email: $email
-        }
-            ){
+        }){
             username,
             token
         }
