@@ -2,6 +2,8 @@ import React from 'react'
 import { message } from 'antd'
 import ReactDOM from 'react-dom/client'
 import { ApolloClient, InMemoryCache, ApolloProvider, HttpLink, from, split } from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
+
 import { onError } from "@apollo/client/link/error";
 import { StyleProvider } from '@ant-design/cssinjs';
 import { ErrorBoundary } from 'react-error-boundary'
@@ -31,6 +33,19 @@ const errorLink = onError((error) => {
   }
 });
 
+const authLink = setContext((_, { headers }) => {
+  // get the authentication token from local storage if it exists
+  const token = sessionStorage.getItem(TOKEN_KEY);
+  
+  // return the headers to the context so httpLink can read them
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : "",
+    }
+  }
+});
+
 const httpLink = new HttpLink({
   uri: 'http://localhost:5000/graphql',
   headers: {
@@ -49,14 +64,13 @@ const wsLink = new GraphQLWsLink(createClient({
 const splitLink = split(
   ({ query }) => {
     const definition = getMainDefinition(query);
-    console.log('definition', definition);
     return (
       definition.kind === 'OperationDefinition' &&
       definition.operation === 'subscription'
     );
   },
   wsLink,
-  httpLink,
+  authLink.concat(httpLink),
 );
 
 
