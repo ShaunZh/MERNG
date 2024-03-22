@@ -18,7 +18,6 @@ function Post(props) {
             },
             onCompleted() {
                 handleClose();
-                message.success('Success!')
             }
         },
     )
