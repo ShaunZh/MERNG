@@ -6,7 +6,7 @@ import Comment from './Comment'
 
 function Post(props) {
     const [visibleComment, setVisibleComment] = useState(false);
-    const { id, post, username, commentCount, likeCount} = props
+    const { post, username, commentCount, likeCount} = props
 
     const handleComment = () => {
         setVisibleComment(true)
@@ -16,7 +16,6 @@ function Post(props) {
         console.log(comment )
         setVisibleComment(false)
     }
-    console.log('props', props, id)
 
     return (
         <div>

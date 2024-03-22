@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useMutation } from '@apollo/client'
 import { Form, Button, Input, Modal } from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
@@ -20,6 +20,7 @@ function Login() {
             onCompleted(data) {
                 const { token } = data.login;
                 sessionStorage.setItem(TOKEN_KEY, token)
+                console.log('token', data)
                 navigate('/home')
             }
         });
@@ -31,6 +32,9 @@ function Login() {
             }
         })
     }
+    useEffect(() => {
+        sessionStorage.removeItem(TOKEN_KEY)
+    }, [])
     return (
         <div className="grid place-content-center h-full w-full">
             <Modal

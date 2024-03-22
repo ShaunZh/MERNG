@@ -1,9 +1,15 @@
-import { useQuery } from '@apollo/client'
-import { QUERY_POSTS } from '../../graphql/posts';
+import { useQuery, useSubscription } from '@apollo/client'
+import { message } from 'antd'
+import { QUERY_POSTS,  NEW_SUBSCRIPTION } from '../../graphql/posts';
 import PostList from '../../components/PostList';
 
 function DispPosts() {
     const { loading, error, data } = useQuery(QUERY_POSTS)
+    useSubscription(NEW_SUBSCRIPTION, {
+        onSubscriptionData(subData) {
+            // message.info('')
+        }
+    })
 
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error : {error.message}</p>;
