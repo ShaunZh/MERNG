@@ -4,7 +4,7 @@ import { Form, Button, Input, Modal } from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import { useNavigate } from "react-router-dom";
 import { USER_LOGIN } from '../graphql/user';
-import { TOKEN_KEY } from "../utils/constants"
+import { TOKEN_KEY, USER_INFO } from "../utils/constants"
 
 
 function Login() {
@@ -20,6 +20,7 @@ function Login() {
             onCompleted(data) {
                 const { token } = data.login;
                 sessionStorage.setItem(TOKEN_KEY, token)
+                sessionStorage.setItem(USER_INFO, data.login)
                 console.log('token', data)
                 navigate('/home')
             }
