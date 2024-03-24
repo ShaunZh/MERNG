@@ -44,14 +44,18 @@ module.exports = `#graphql
     type Mutation {
         register(registerInput: RegisterInput!): User!
         login(username: String!, password: String!): User!
+        logout: CommonResult!
         createPost(body: String!): Post!
         deletePost(postId: ID!): String!
-
         createComment(postId: ID!, body: String!): Post!
         deleteComment(postId: ID!, commentId: ID!): String!
         likePost(postId: ID!): String!
     }
     type Subscription {
         postCreated: Post!
+    }
+    type CommonResult {
+        success: Boolean!,
+        message: String!,
     }
 `

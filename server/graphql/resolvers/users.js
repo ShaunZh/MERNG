@@ -7,6 +7,7 @@ const { GraphQLError } = require('graphql')
 const User = require('../../models/User');
 const { SECRET_KEY } = require('../../../config');
 const { validateRegisterInput, validateLoginInput } = require('../../util/validators');
+const checkAuth = require('../../util/check-auth');
 
 const generateToken = (user) => {
     return jwt.sign({
@@ -53,11 +54,24 @@ module.exports = {
             }
 
             const token = generateToken(user);
+            await user.updateOne({ token });
+
             return {
                 ...user._doc,
                 id: user._id,
                 token
             }
+        },
+        async logout(_, __, context) {
+            const { id } = await checkAuth(context);
+            const newUser = await User.findOneAndUpdate({ _id: id }, {
+                token: null
+            })
+            console.log(newUser, 'newUser')
+            return {
+                success: true,
+                message: 'Logout success',
+            };
         },
         async register(
             _,
