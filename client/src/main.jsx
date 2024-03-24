@@ -77,13 +77,14 @@ const splitLink = split(
 const client = new ApolloClient({
   cache: new InMemoryCache(),
   link: from([errorLink, splitLink]),
+  connectToDevTools: true,
 });
 
 
 // Supported in React 18+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-function fallbackRender({ error, resetErrorBoundary }) {
+function fallbackRender({ error }) {
 
   return (
     <div role="alert">

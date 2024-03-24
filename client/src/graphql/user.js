@@ -4,7 +4,9 @@ export const USER_LOGIN= gql`
     mutation USER_LOGIN($username: String!, $password: String!) {
         login(username: $username, password: $password){
             username,
-            token
+            token,
+            id,
+            email,
         }
     }
 `
@@ -28,3 +30,11 @@ export const USER_REGISTER= gql`
     }
 `
 
+export const USER_LOGOUT = gql`
+    mutation USER_LOGOUT {
+        logout {
+            message,
+            success,
+        }
+    }
+`

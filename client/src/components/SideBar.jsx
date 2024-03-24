@@ -5,6 +5,8 @@ import { EllipsisOutlined  } from '@ant-design/icons';
 
 import CreatePost from './CreatePost'
 import { TOKEN_KEY } from "../utils/constants";
+import { useMutation } from "@apollo/client";
+import { USER_LOGOUT } from "../graphql/user";
 const items = [
     {
         key: 'logout',
@@ -15,12 +17,17 @@ const items = [
 
 function SideBar() {
     const [visibleCreatePost, setVisibleCreatePost] = useState(false)
+    const [logout] = useMutation(USER_LOGOUT, {
+        onCompleted() {
+            sessionStorage.removeItem(TOKEN_KEY)
+            navigate('/login')
+        },
+    });
     const navigate = useNavigate();
 
     const handleMenuClick = (e) => {
         if (e.key === 'logout') {
-            sessionStorage.removeItem(TOKEN_KEY)
-            navigate('/login')
+            logout();
         }
     }
     return (
